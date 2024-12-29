@@ -63,6 +63,7 @@ const setCorrectAnswer = (index: number) => {
               </div>
               <UInput
                 v-if="mode === 'edit'"
+                :id="`answer-choice-${index}-${idx}`"
                 class="flex-grow"
                 :placeholder="`Answer ${String.fromCharCode(65 + idx)} - ${answer.correct ? 'Correct Answer' : '' }`"
                 v-model="answer.text"
