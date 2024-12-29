@@ -6,7 +6,7 @@ import QuizShortAnswer from '../../components/quiz/short-answer.vue';
 import QuizMatching from '../../components/quiz/matching.vue';
 import QuizOrdering from '../../components/quiz/ordering.vue';
 
-const state = reactive({
+const state = ref({
   title: '',
   description: '',
 });
@@ -54,7 +54,12 @@ const saveQuizQuestion = (quizQuestion: QuizQuestion) => {
 }
 
 const createQuiz = () => {
-  console.log(quizQuestions.value)
+  const newQuiz = {
+    title: state.value.title,
+    description: state.value.description,
+    quiz: quizQuestions.value
+  }
+  console.log(newQuiz)
 }
 
 definePageMeta({
@@ -69,10 +74,10 @@ definePageMeta({
       <UForm :state="state" class="space-y-4" @submit="createQuiz">
         <UCard>
           <div class="space-y-4">
-            <UFormGroup label="Quiz Title" name="quiz-title">
+            <UFormGroup required label="Quiz Title" name="quiz-title">
               <UInput v-model="state.title" placeholder="E.g. Fluid Mechanics Topic 1 - Quiz" />
             </UFormGroup>
-            <UFormGroup label="Description" name="quiz-description">
+            <UFormGroup required label="Description" name="quiz-description">
               <UTextarea
                 v-model="state.description"
                 placeholder="E.g. Understand the fundamentals of Fluid Mechanics"
