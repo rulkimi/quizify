@@ -51,20 +51,20 @@ const setCorrectAnswer = (index: number) => {
       >
         <div class="space-y-2">
           <div
-            v-for="(answer, index) in answers"
-            :key="index"
+            v-for="(answer, idx) in answers"
+            :key="idx"
             class="flex items-center gap-2"
           >
             <div class="flex-grow">
               <div v-if="mode === 'answer'">
                 <span :class="{'font-bold text-green-600': answer.correct}">
-                  {{ String.fromCharCode(65 + index) }}) {{ answer.text }}
+                  {{ String.fromCharCode(65 + idx) }}) {{ answer.text }}
                 </span>
               </div>
               <UInput
                 v-if="mode === 'edit'"
                 class="flex-grow"
-                :placeholder="`Answer ${String.fromCharCode(65 + index)} - ${answer.correct ? 'Correct Answer' : '' }`"
+                :placeholder="`Answer ${String.fromCharCode(65 + idx)} - ${answer.correct ? 'Correct Answer' : '' }`"
                 v-model="answer.text"
               />
             </div>
@@ -75,10 +75,10 @@ const setCorrectAnswer = (index: number) => {
             </div>
             <URadio
               v-if="mode === 'edit'"
-              name="correct-answer"
-              :value="index"
+              :name="'correct-answer-' + index"
+              :value="idx"
               :checked="answer.correct"
-              @change="setCorrectAnswer(index)"
+              @change="setCorrectAnswer(idx)"
             />
           </div>
         </div>

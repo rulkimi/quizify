@@ -41,13 +41,13 @@ const answers = ref<boolean>(true); // Make sure answers is a boolean
         <div class="flex gap-4">
           <template v-if="mode === 'edit'">
             <URadio
-              name="correct-answer"
+              :name="'correct-answer-' + index"
               label="True"
               :value="true"
               v-model="answers"
             />
             <URadio
-              name="correct-answer"
+              :name="'correct-answer-' + index"
               label="False"
               :value="false"
               v-model="answers"
