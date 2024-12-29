@@ -1,14 +1,16 @@
 <script setup lang="ts">
-const emit = defineEmits(['remove', 'save']);
+const emit = defineEmits(['remove', 'save', 'answer']);
 
-defineProps<{
-  index: number
+const props = defineProps<{
+  index: number,
+  quizMode: 'edit' | 'answer'
 }>()
 
+const mode = ref(props.quizMode);
 const question = ref('');
-const type = ref('multiple-choice')
+const type = ref('multiple-choice');
 const answers = ref([
-  { text: '', correct: false },
+  { text: '', correct: true },
   { text: '', correct: false },
   { text: '', correct: false },
   { text: '', correct: false },
@@ -31,26 +33,48 @@ const setCorrectAnswer = (index: number) => {
     </template>
 
     <div class="space-y-4">
-      <UFormGroup required label="Question">
+      <UFormGroup
+        :required="mode === 'edit'"
+        label="Question"
+      >
+        <div class="text-lg font-semibold" v-if="mode === 'answer'">{{ question }}</div>
         <UInput
+          v-if="mode === 'edit'"
           placeholder="Enter your question"
           v-model="question"
         />
       </UFormGroup>
 
-      <UFormGroup required label="Answers">
+      <UFormGroup 
+        :required="mode === 'edit'"
+        label="Answers"
+      >
         <div class="space-y-2">
           <div
             v-for="(answer, index) in answers"
             :key="index"
             class="flex items-center gap-2"
           >
-            <UInput
-              class="flex-grow"
-              :placeholder="`Answer ${String.fromCharCode(65 + index)}`"
-              v-model="answer.text"
-            />
+            <div class="flex-grow">
+              <div v-if="mode === 'answer'">
+                <span :class="{'font-bold text-green-600': answer.correct}">
+                  {{ String.fromCharCode(65 + index) }}) {{ answer.text }}
+                </span>
+              </div>
+              <UInput
+                v-if="mode === 'edit'"
+                class="flex-grow"
+                :placeholder="`Answer ${String.fromCharCode(65 + index)} - ${answer.correct ? 'Correct Answer' : '' }`"
+                v-model="answer.text"
+              />
+            </div>
+            <div v-if="mode === 'answer'">
+              <span v-if="answer.correct" class="text-green-500">
+                Correct
+              </span>
+            </div>
             <URadio
+              v-if="mode === 'edit'"
               name="correct-answer"
               :value="index"
               :checked="answer.correct"
@@ -64,9 +88,10 @@ const setCorrectAnswer = (index: number) => {
     <template #footer>
       <div class="flex justify-end items-center gap-2">
         <UButton variant="link" @click="emit('remove')">Remove</UButton>
-        <UButton @click="emit('save', { type, question, answers })">Save</UButton>
+        <UButton v-if="mode === 'edit'" @click="mode = 'answer'; emit('save', { type, question, answers })">Save</UButton>
+        <UButton v-else @click="mode = 'edit'">Edit</UButton>
       </div>
     </template>
-
   </UCard>
 </template>
+

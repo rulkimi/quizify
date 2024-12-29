@@ -93,6 +93,7 @@ const saveQuizQuestion = (quiz: QuizQuestion) => {
         <component
           :is="question.component"
           :index="index + 1"
+          quiz-mode="edit"
           @remove="removeQuestion(index)"
           @save="saveQuizQuestion"
         />
