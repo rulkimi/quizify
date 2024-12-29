@@ -6,7 +6,6 @@ import QuizFillInTheBlank from '../../components/quiz/fill-in-the-blank.vue';
 import QuizShortAnswer from '../../components/quiz/short-answer.vue';
 import QuizMatching from '../../components/quiz/matching.vue';
 import QuizOrdering from '../../components/quiz/ordering.vue';
-import type { FormSubmitEvent } from '#ui/types';
 
 const state = reactive({
   title: '',
@@ -49,8 +48,14 @@ interface QuizQuestion {
     | { text: string; order: number }[];
 }
 
-const saveQuizQuestion = (quiz: QuizQuestion) => {
-  console.log(quiz.answers)
+const quizQuestions = ref<QuizQuestion[]>([]);
+
+const saveQuizQuestion = (quizQuestion: QuizQuestion) => {
+  quizQuestions.value.push(quizQuestion)
+}
+
+const createQuiz = () => {
+  console.log(quizQuestions.value)
 }
 
 definePageMeta({
@@ -60,9 +65,9 @@ definePageMeta({
 
 <template>
   <NuxtLayout name="default">
-    
+
     <template #sticky>
-      <UForm :state="state" class="space-y-4">
+      <UForm :state="state" class="space-y-4" @submit="createQuiz">
         <UCard>
           <div class="space-y-4">
             <UFormGroup label="Quiz Title" name="quiz-title">
@@ -89,6 +94,7 @@ definePageMeta({
             </div>
           </div>
         </div>
+        <UButton type="submit">Create Quiz</UButton>
       </UForm>
     </template>
 
