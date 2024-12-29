@@ -52,53 +52,63 @@ interface QuizQuestion {
 const saveQuizQuestion = (quiz: QuizQuestion) => {
   console.log(quiz.answers)
 }
+
+definePageMeta({
+  layout: false,
+})
 </script>
 
 <template>
-  <div class="flex gap-4" :class="{ 'mr-4' : questions.length === 0}">
-    <UForm :state="state" class="space-y-4 w-[40%] sticky top-0">
-      <UCard>
-        <div class="space-y-4">
-          <UFormGroup label="Quiz Title" name="quiz-title">
-            <UInput v-model="state.title" placeholder="E.g. Fluid Mechanics Topic 1 - Quiz" />
-          </UFormGroup>
-          <UFormGroup label="Description" name="quiz-description">
-            <UTextarea
-              v-model="state.description"
-              placeholder="E.g. Understand the fundamentals of Fluid Mechanics"
-            />
-          </UFormGroup>
-        </div>
-      </UCard>
-      <div class="bg-white p-0.5 rounded-lg">
-        <div class="border border-dashed p-2 rounded-md grid grid-cols-12 gap-1">
-          <div
-            v-for="quizType in quizTypes"
-            :key="quizType.label"
-            class="bg-white border px-2 py-1 rounded-md col-span-4 hover:bg-gray-100 cursor-pointer flex items-center gap-1"
-            @click="addQuestion(quizType)"
-          >
-            <UIcon :name="quizType.icon" class="w-5 h-5" />
-            {{ quizType.label }}
+  <NuxtLayout name="default">
+    
+    <template #sticky>
+      <UForm :state="state" class="space-y-4">
+        <UCard>
+          <div class="space-y-4">
+            <UFormGroup label="Quiz Title" name="quiz-title">
+              <UInput v-model="state.title" placeholder="E.g. Fluid Mechanics Topic 1 - Quiz" />
+            </UFormGroup>
+            <UFormGroup label="Description" name="quiz-description">
+              <UTextarea
+                v-model="state.description"
+                placeholder="E.g. Understand the fundamentals of Fluid Mechanics"
+              />
+            </UFormGroup>
+          </div>
+        </UCard>
+        <div class="bg-white p-0.5 rounded-lg">
+          <div class="border border-dashed p-2 rounded-md grid grid-cols-12 gap-1">
+            <div
+              v-for="quizType in quizTypes"
+              :key="quizType.label"
+              class="bg-white border px-2 py-1 rounded-md col-span-4 hover:bg-gray-100 cursor-pointer flex items-center gap-1"
+              @click="addQuestion(quizType)"
+            >
+              <UIcon :name="quizType.icon" class="w-5 h-5" />
+              {{ quizType.label }}
+            </div>
           </div>
         </div>
-      </div>
-    </UForm>
+      </UForm>
+    </template>
 
-    <div v-if="questions.length > 0" class="space-y-4 w-[60%]">
-      <div
-        v-for="(question, index) in questions"
-        :key="index"
-        class="relative rounded-lg"
-      >
-        <component
-          :is="question.component"
-          :index="index + 1"
-          quiz-mode="edit"
-          @remove="removeQuestion(index)"
-          @save="saveQuizQuestion"
-        />
+    <div :class="{ 'mr-4' : questions.length === 0}">
+      <div v-if="questions.length > 0" class="space-y-4">
+        <div
+          v-for="(question, index) in questions"
+          :key="index"
+          class="relative rounded-lg"
+        >
+          <component
+            :is="question.component"
+            :index="index + 1"
+            quiz-mode="edit"
+            @remove="removeQuestion(index)"
+            @save="saveQuizQuestion"
+          />
+        </div>
       </div>
     </div>
-  </div>
+
+  </NuxtLayout>
 </template>
