@@ -42,7 +42,7 @@ watchEffect(() => {
         <NuxtLink
           :to="menu.url"
           class="flex items-center gap-5 px-3 py-2 rounded-md cursor-pointer"
-          :class="activeMenu === menu.id ? 'bg-white/50 font-semibold' : 'hover:bg-white/50'"
+          :class="activeMenu === menu.id ? 'bg-primary-100 font-semibold text-primary' : 'hover:bg-primary-100'"
           @click="activeMenu = menu.id"
         >
           <UIcon :name="menu.icon" class="w-5 h-5" />
