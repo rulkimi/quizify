@@ -93,29 +93,38 @@ definePageMeta({
             </UFormGroup>
           </div>
         </UCard>
-        <div class="bg-white p-0.5 rounded-lg">
-          <div class="border border-dashed p-2 rounded-md grid grid-cols-12 gap-1">
-            <div
-              v-for="quizType in quizTypes"
-              :key="quizType.label"
-              class="bg-white border px-2 py-1 rounded-md col-span-4 hover:bg-gray-100 cursor-pointer flex items-center gap-1"
-              @click="addQuestion(quizType)"
-            >
-              <UIcon :name="quizType.icon" class="w-5 h-5" />
-              {{ quizType.label }}
+
+        <div class="space-y-2"> 
+          <span>Add Question:</span>
+          <div class="bg-white p-0.5 rounded-lg">
+            <div class="border border-dashed p-2 rounded-md grid grid-cols-12 gap-1">
+              <div
+                v-for="quizType in quizTypes"
+                :key="quizType.label"
+                class="bg-white border px-2 py-1 rounded-md col-span-4 hover:bg-gray-100 cursor-pointer flex items-center gap-1"
+                @click="addQuestion(quizType)"
+              >
+                <UIcon :name="quizType.icon" class="w-5 h-5" />
+                {{ quizType.label }}
+              </div>
             </div>
           </div>
         </div>
+
         <div class="flex justify-end">
           <UButton type="submit">Create Quiz</UButton>
         </div>
+
       </UForm>
 
       <div
         class=""
       >
-        <div v-for="quizQuestion in quizQuestions">
-          {{ quizQuestion.question }}
+        <div
+          v-for="quizQuestion in quizQuestions"
+          class="border px-3 py-2 rounded-lg"
+        >
+          Question {{ quizQuestion.index }}
         </div>
       </div>
     </template>
