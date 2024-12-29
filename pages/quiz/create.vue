@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { reactive, ref, markRaw } from 'vue';
 import QuizMultipleChoice from '../../components/quiz/multiple-choice.vue';
 import QuizTrueFalse from '../../components/quiz/true-false.vue';
 import QuizFillInTheBlank from '../../components/quiz/fill-in-the-blank.vue';
@@ -94,7 +93,9 @@ definePageMeta({
             </div>
           </div>
         </div>
-        <UButton type="submit">Create Quiz</UButton>
+        <div class="flex justify-end">
+          <UButton type="submit">Create Quiz</UButton>
+        </div>
       </UForm>
     </template>
 
