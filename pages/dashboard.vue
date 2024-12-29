@@ -1,0 +1,3 @@
+<template>
+  dahsboard
+</template>
