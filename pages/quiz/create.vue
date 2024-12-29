@@ -37,6 +37,7 @@ function removeQuestion(index: number) {
 }
 
 interface QuizQuestion {
+  index: number;
   question: string;
   type: 'multiple-choice' | 'true-false' | 'fill-in-the-blank' | 'short-answer' | 'matching' | 'ordering';
   answers: 
@@ -50,8 +51,15 @@ interface QuizQuestion {
 const quizQuestions = ref<QuizQuestion[]>([]);
 
 const saveQuizQuestion = (quizQuestion: QuizQuestion) => {
-  quizQuestions.value.push(quizQuestion)
-}
+  const existingIndex = quizQuestions.value.findIndex(q => q.index === quizQuestion.index);
+
+  if (existingIndex !== -1) {
+    quizQuestions.value[existingIndex] = quizQuestion;
+  } else {
+    quizQuestions.value.push(quizQuestion);
+  }
+};
+
 
 const createQuiz = () => {
   const newQuiz = {
@@ -102,9 +110,17 @@ definePageMeta({
           <UButton type="submit">Create Quiz</UButton>
         </div>
       </UForm>
+
+      <div
+        class=""
+      >
+        <div v-for="quizQuestion in quizQuestions">
+          {{ quizQuestion.question }}
+        </div>
+      </div>
     </template>
 
-    <div :class="{ 'mr-4' : questions.length === 0}">
+    <div class="h-full">
       <div v-if="questions.length > 0" class="space-y-4">
         <div
           v-for="(question, index) in questions"
@@ -119,6 +135,12 @@ definePageMeta({
             @save="saveQuizQuestion"
           />
         </div>
+      </div>
+      <div
+        v-else
+        class="w-full border border-dashed p-4 rounded-lg h-full flex items-center justify-center text-gray-400"
+      >
+        Add Question
       </div>
     </div>
 

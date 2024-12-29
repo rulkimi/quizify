@@ -65,7 +65,7 @@ const answers = ref<boolean>(true); // Make sure answers is a boolean
     <template #footer>
       <div class="flex justify-end items-center gap-2">
         <UButton variant="link" @click="emit('remove')">Remove</UButton>
-        <UButton v-if="mode === 'edit'" @click="mode = 'answer'; emit('save', { type, question, answers })">Save</UButton>
+        <UButton v-if="mode === 'edit'" @click="mode = 'answer'; emit('save', { index, type, question, answers })">Save</UButton>
         <UButton v-else @click="mode = 'edit'">Edit</UButton>
       </div>
     </template>
