@@ -37,6 +37,20 @@ function addQuestion(quizType: Quiz) {
 function removeQuestion(index: number) {
   questions.value.splice(index, 1);
 }
+
+interface QuizQuestion {
+  question: string;
+  type: 'multiple-choice' | 'true-false' | 'fill-in-the-blank' | 'short-answer' | 'matching' | 'ordering';
+  answers: 
+    | { text: string; correct: boolean }[]
+    | { text: string }[]                  
+    | { left: string; right: string }[]  
+    | { text: string; order: number }[];
+}
+
+const saveQuizQuestion = (quiz: QuizQuestion) => {
+  console.log(quiz.answers)
+}
 </script>
 
 <template>
@@ -75,7 +89,11 @@ function removeQuestion(index: number) {
         :key="index"
         class="relative bg-gray-100 p-4 rounded-lg"
       >
-        <component :is="question.component" />
+        <component
+          :is="question.component"
+          @remove="removeQuestion(index)"
+          @save="saveQuizQuestion"
+        />
       </div>
     </div>
   </UForm>

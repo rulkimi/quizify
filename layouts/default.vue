@@ -2,7 +2,7 @@
   <div class="h-screen">
     <div class="flex p-2 h-full">
       <SideBar />
-      <div class="flex-grow bg-white shadow-lg dark:bg-white/5 rounded-lg p-4">
+      <div class="flex-grow bg-white shadow-lg dark:bg-white/5 rounded-lg p-4 overflow-y-auto">
         <slot></slot>
       </div>
     </div>
