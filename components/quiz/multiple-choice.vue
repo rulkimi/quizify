@@ -1,6 +1,10 @@
 <script setup lang="ts">
 const emit = defineEmits(['remove', 'save']);
 
+defineProps<{
+  index: number
+}>()
+
 const question = ref('');
 const type = ref('multiple-choice')
 const answers = ref([
@@ -22,7 +26,7 @@ const setCorrectAnswer = (index: number) => {
     <template #header>
       <div class="flex items-center gap-2">
         <UIcon name="i-material-symbols:check-box-outline" />
-        Question 1
+        Question {{ index }}
       </div>
     </template>
 

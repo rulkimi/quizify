@@ -43,6 +43,7 @@ interface QuizQuestion {
   type: 'multiple-choice' | 'true-false' | 'fill-in-the-blank' | 'short-answer' | 'matching' | 'ordering';
   answers: 
     | { text: string; correct: boolean }[]
+    | boolean
     | { text: string }[]                  
     | { left: string; right: string }[]  
     | { text: string; order: number }[];
@@ -87,10 +88,11 @@ const saveQuizQuestion = (quiz: QuizQuestion) => {
       <div 
         v-for="(question, index) in questions" 
         :key="index"
-        class="relative bg-gray-100 p-4 rounded-lg"
+        class="relative bg-gray-100 p-2 rounded-lg"
       >
         <component
           :is="question.component"
+          :index="index + 1"
           @remove="removeQuestion(index)"
           @save="saveQuizQuestion"
         />
